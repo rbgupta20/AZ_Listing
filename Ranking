@@ -1,0 +1,104 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from datetime import date
+import time
+import csv
+from bs4 import BeautifulSoup
+
+# Search keywords
+search_keywords = [
+    "kdxpbpz", "qualitylife", "bleouk", "hzman", "tewiky"
+]
+
+us_zip_code = "02118"  # US ZIP code for location
+
+# Setup Chrome options for the browser
+options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_experimental_option("detach", True)  # Keep the browser open
+
+# Initialize WebDriver and WebDriverWait
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+wait = WebDriverWait(driver, 30)
+
+# Function to click 'Continue' button using JavaScript
+def click_continue_button():
+    try:
+        continue_button_xpath = "//span[@id='GLUXConfirmClose-announce' and text()='Continue']"
+        continue_button = wait.until(EC.presence_of_element_located((By.XPATH, continue_button_xpath)))
+        driver.execute_script("arguments[0].click();", continue_button)
+        print("JavaScript click performed on 'Continue' button.")
+        return True
+    except Exception as e:
+        print(f"Error: Unable to click 'Continue' button. {e}")
+        return False
+
+# Function to extract product details and save them to a CSV file
+def extract_page_title(search_keyword):
+    today = date.today()
+    filename = f"{search_keyword}_{today}.csv"
+
+    try:
+        page_source = driver.page_source
+        soup = BeautifulSoup(page_source, 'html.parser')
+        product_containers = soup.find_all('div', {'data-component-type': 's-search-result'})
+
+        with open(filename, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Rank', 'ASIN', 'Brand', 'Product Title', 'Price', 'Sponsored', 'Average Rating', 'Number of Ratings', 'Qty Bought in Past Month'])
+
+            # Extract product details for each product container
+            for rank, product in enumerate(product_containers, start=1):
+                asin = product.get('data-asin', 'ASIN Not Available')
+                brand = product.find('span', class_='a-size-base-plus a-color-base').get_text().strip() if product.find('span', class_='a-size-base-plus a-color-base') else "Brand Not Available"
+                title = product.find('h2', class_='a-size-base-plus a-spacing-none a-color-base a-text-normal').get_text().strip() if product.find('h2', class_='a-size-base-plus a-spacing-none a-color-base a-text-normal') else "Title Not Available"
+                price_whole = product.find('span', class_='a-price-whole')
+                price_fraction = product.find('span', class_='a-price-fraction')
+                price = f"{price_whole.get_text().strip()}.{price_fraction.get_text().strip()}" if price_whole else "Price Not Available"
+                is_sponsored = "Yes" if "Sponsored Ad" in (product.find('img', class_='s-image').get("alt", "") if product.find('img', class_='s-image') else "") else "No"
+                avg_rating = product.find('span', class_='a-icon-alt').get_text().split()[0] if product.find('span', class_='a-icon-alt') else "No Rating"
+                ratings_count = product.find('span', class_='a-size-base').get_text().replace(',', '').strip() if product.find('span', class_='a-size-base') else "No Ratings"
+                qty_bought = product.find('span', class_='a-size-base a-color-secondary').get_text().strip() if product.find('span', class_='a-size-base a-color-secondary') else "No Data"
+
+                writer.writerow([rank, asin, brand, title, price, is_sponsored, avg_rating, ratings_count, qty_bought])
+
+        print(f"Extracted {len(product_containers)} products and saved to {filename}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Main logic to open Amazon, set location, and extract product details for each keyword
+try:
+    driver.get("https://www.amazon.com/")
+    wait.until(EC.presence_of_element_located((By.ID, "nav-global-location-popover-link")))
+
+    # Set location using ZIP code
+    driver.find_element(By.ID, "nav-global-location-popover-link").click()
+    wait.until(EC.presence_of_element_located((By.ID, "GLUXZipUpdateInput"))).send_keys(us_zip_code)
+    driver.find_element(By.XPATH, "//span[@id='GLUXZipUpdate']//input").click()
+
+    # Wait for overlay to load
+    time.sleep(5)
+
+    # Check for modal and handle 'Continue' button click
+    if wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'a-popover-footer')]"))):
+        print("Modal is visible.")
+        if not click_continue_button():
+            print("JavaScript click failed. Unable to find the 'Continue' button.")
+
+    # Search and extract details for each keyword
+    for keyword in search_keywords:
+        search_box = driver.find_element(By.ID, "twotabsearchtextbox")
+        search_box.clear()
+        search_box.send_keys(keyword)
+        search_box.submit()
+        time.sleep(5)  # Wait for page to load
+        extract_page_title(keyword)
+        time.sleep(2)  # Wait before next search
+
+except Exception as e:
+    print(f"An error occurred: {e}")
