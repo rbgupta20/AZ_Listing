@@ -14,12 +14,8 @@ from bs4 import BeautifulSoup
 
 
 
-
-search_keyword1 = "kdxpbpz"
-search_keyword2 = "qualitylife"
-search_keyword3 = "bleouk"
-search_keyword4 = "hzman"
-search_keyword5 = "tewiky"
+search_keywords = ["kotlc", "kotlc merch", "Keeper of the lost cities", "Keeper of the lost cities merch", "keepers of the lost cities",
+                  "kotlc gifts", "Keeper of the lost cities gifts", "Kotlc necklace", "Keeper of the lost cities necklace"]
 
 
 
@@ -55,7 +51,7 @@ from bs4 import BeautifulSoup
 def extract_page_title(search_keyword):
 
     today = date.today()
-    filename= search_keyword + str(today)
+    filename= search_keyword
     csv_filename= filename + ".csv"
 
     
@@ -171,65 +167,17 @@ try:
 
     print("sleep done")
     
-    search_box = driver.find_element(By.ID, "twotabsearchtextbox")
-    search_box.clear()
-    search_box.send_keys(search_keyword1)
-    search_box.submit()
-    time.sleep(5)
-    # Extract and print product titles
-    extract_page_title(search_keyword1)
-    time.sleep(2)
 
+    for keyword in search_keywords:
+        search_box = driver.find_element(By.ID, "twotabsearchtextbox")
+        search_box.clear()
+        search_box.send_keys(keyword)
+        search_box.submit()
+        time.sleep(5)
+        extract_page_title(keyword)
+        time.sleep(2)
 
     
-    search_box = driver.find_element(By.ID, "twotabsearchtextbox")
-    search_box.clear()
-    search_box.send_keys(search_keyword2)
-    search_box.submit()
-    time.sleep(5)
-    # Extract and print product titles
-    extract_page_title(search_keyword2)
-    time.sleep(2)
-
-
-
-    search_box = driver.find_element(By.ID, "twotabsearchtextbox")
-    search_box.clear()
-    search_box.send_keys(search_keyword3)
-    search_box.submit()
-    time.sleep(5)
-    # Extract and print product titles
-    extract_page_title(search_keyword3)
-    time.sleep(2)
-
-
-
-    search_box = driver.find_element(By.ID, "twotabsearchtextbox")
-    search_box.clear()
-    search_box.send_keys(search_keyword4)
-    search_box.submit()
-    time.sleep(5)
-    # Extract and print product titles
-    extract_page_title(search_keyword4)
-    time.sleep(2)
-
-
-
-    search_box = driver.find_element(By.ID, "twotabsearchtextbox")
-    search_box.clear()
-    search_box.send_keys(search_keyword5)
-    search_box.submit()
-    time.sleep(5)
-    # Extract and print product titles
-    extract_page_title(search_keyword5)
-    time.sleep(2)
-
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-
-
-
-
-
