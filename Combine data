@@ -27,13 +27,23 @@ def get_asin_ranks(asins, files, output_file):
     
     return df_results
 
-# Example usage
-files = ["kotlc.csv", "kotlc merch.csv", "Keeper of the lost cities.csv", "Keeper of the lost cities merch.csv", "keepers of the lost cities.csv",
-                  "kotlc gifts.csv", "Keeper of the lost cities gifts.csv", "Kotlc necklace.csv", "Keeper of the lost cities necklace.csv"]
+# For KOTLC
+#files = ["kotlc.csv", "kotlc merch.csv", "Keeper of the lost cities.csv", "Keeper of the lost cities merch.csv", "keepers of the lost cities.csv",
+#                  "kotlc gifts.csv", "Keeper of the lost cities gifts.csv", "Kotlc necklace.csv", "Keeper of the lost cities necklace.csv"]
+#asins_to_search = [
+#    "B09F3GFB5Q", "B0DHQT1QZ7", "B0BPBK88W5", "B0C3WGPZYT", 
+#    "B0DJQWRNDZ", "B0DG29BY8S", "B0DQXV3MMH", "B0DQXSCPQQ", "B0CTKKKKWZ"
+#]
+
+
+# For TS
+files = ["taylor swift makeup bag.csv", "taylor swift make up bag.csv", "taylor swift bag.csv", "taylor swift pencil case.csv", "Swiftie makeup bag.csv", "Taylor swift gift.csv"]
 asins_to_search = [
-    "B09F3GFB5Q", "B0DHQT1QZ7", "B0BPBK88W5", "B0C3WGPZYT", 
-    "B0DJQWRNDZ", "B0DG29BY8S", "B0DQXV3MMH", "B0DQXSCPQQ", "B0CTKKKKWZ"
+    "B0DG22RSNR"
 ]
+
+
+
 
 output_filename = "asin_ranks_output.csv"
 ranks_df = get_asin_ranks(asins_to_search, files, output_filename)
