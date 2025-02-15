@@ -1,0 +1,40 @@
+import pandas as pd
+
+def get_asin_ranks(asins, files, output_file):
+    # Dictionary to store results
+    results = {}
+
+    for file in files:
+        # Load CSV file into dataframe
+        df = pd.read_csv(file)
+
+        # Filter only rows where 'Sponsored' is 'No'
+        df = df[df['Sponsored'] == 'No']
+
+        # Store ASIN ranks for this file
+        results[file] = {asin: df.loc[df['ASIN'] == asin, 'Rank'].values[0] if len(df.loc[df['ASIN'] == asin, 'Rank'].values) > 0 else 'Not Found' for asin in asins}
+
+    # Convert results to a DataFrame
+    df_results = pd.DataFrame.from_dict(results, orient='index')
+
+    # Reset index to make File Name a column
+    df_results.index.name = 'CSV File'
+    df_results.reset_index(inplace=True)
+    
+    # Save to CSV
+    df_results.to_csv(output_file, index=False)
+    print(f"Output saved to {output_file}")
+    
+    return df_results
+
+# Example usage
+files = ["kotlc.csv", "kotlc merch.csv", "Keeper of the lost cities.csv", "Keeper of the lost cities merch.csv", "keepers of the lost cities.csv",
+                  "kotlc gifts.csv", "Keeper of the lost cities gifts.csv", "Kotlc necklace.csv", "Keeper of the lost cities necklace.csv"]
+asins_to_search = [
+    "B09F3GFB5Q", "B0DHQT1QZ7", "B0BPBK88W5", "B0C3WGPZYT", 
+    "B0DJQWRNDZ", "B0DG29BY8S", "B0DQXV3MMH", "B0DQXSCPQQ", "B0CTKKKKWZ"
+]
+
+output_filename = "asin_ranks_output.csv"
+ranks_df = get_asin_ranks(asins_to_search, files, output_filename)
+print(ranks_df)
