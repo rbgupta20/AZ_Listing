@@ -37,11 +37,17 @@ def get_asin_ranks(asins, files, output_file):
 
 
 # For TS
-files = ["taylor swift makeup bag.csv", "taylor swift make up bag.csv", "taylor swift bag.csv", "taylor swift pencil case.csv", "Swiftie makeup bag.csv", "Taylor swift gift.csv"]
-asins_to_search = [
-    "B0DG22RSNR"
-]
+#files = ["taylor swift makeup bag.csv", "taylor swift make up bag.csv", "taylor swift bag.csv", "taylor swift pencil case.csv", "Swiftie makeup bag.csv", "Taylor swift gift.csv"]
+#asins_to_search = [
+#    "B0DG22RSNR"
+#]
 
+
+# For Kpop
+files = ["black pink kpop merch.csv", "blackpink kpop merch.csv", "blackpink merch.csv", "black pink merch for girls.csv","blackpink merch for girls.csv","Kpop merch.csv"]
+asins_to_search = [
+    "B0DG2F4TW2", "B0DRS9HPS2", "B0DRSC1991", "B0DRVN7ZBR", "B0DS9HFWMS"
+]
 
 
 
