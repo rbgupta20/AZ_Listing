@@ -17,8 +17,11 @@ from bs4 import BeautifulSoup
 #search_keywords = ["kotlc", "kotlc merch", "Keeper of the lost cities", "Keeper of the lost cities merch", "keepers of the lost cities",
  #                 "kotlc gifts", "Keeper of the lost cities gifts", "Kotlc necklace", "Keeper of the lost cities necklace"]
 
-search_keywords = ["taylor swift makeup bag", "taylor swift make up bag", "taylor swift bag", "taylor swift pencil case","Swiftie makeup bag","Taylor swift gift"]
+#search_keywords = ["taylor swift makeup bag", "taylor swift make up bag", "taylor swift bag", "taylor swift pencil case","Swiftie makeup bag","Taylor swift gift"]
 
+
+#Kpop
+search_keywords = ["black pink kpop merch", "blackpink kpop merch", "blackpink merch", "black pink merch for girls","blackpink merch for girls","Kpop merch"]
 
 
 us_zip_code = "02118"
