@@ -14,10 +14,10 @@ from bs4 import BeautifulSoup
 
 
 
-#search_keywords = ["kotlc", "kotlc merch", "Keeper of the lost cities", "Keeper of the lost cities merch", "keepers of the lost cities",
- #                 "kotlc gifts", "Keeper of the lost cities gifts", "Kotlc necklace", "Keeper of the lost cities necklace"]
 
-search_keywords = ["taylor swift makeup bag", "taylor swift make up bag", "taylor swift bag", "taylor swift pencil case","Swiftie makeup bag","Taylor swift gift",
+
+search_keywords = ["kotlc", "kotlc merch", "Keeper of the lost cities", "Keeper of the lost cities merch", "keepers of the lost cities", "kotlc gifts", "Keeper of the lost cities gifts", "Kotlc necklace", "Keeper of the lost cities necklace",
+                 "taylor swift makeup bag", "taylor swift make up bag", "taylor swift bag", "taylor swift pencil case","Swiftie makeup bag","Taylor swift gift",
                  "black pink kpop merch", "blackpink kpop merch", "blackpink merch", "black pink merch for girls", "blackpink merch for girls", 
                 "Kpop merch", "kotlc bag", "kotlc make up bag", "kotlc makeup bag", "kotlc tote bag", "kotlc pencil case", "Keeper of the lost cities makeup bag", "Keeper of the lost cities tote bag",
                    "gold crucifix necklace for men","gold crucifix necklace","gold crucifix necklace for women"]
