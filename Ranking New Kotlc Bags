@@ -16,8 +16,7 @@ from bs4 import BeautifulSoup
 
 
 
-search_keywords = ["kotlc", "kotlc merch", "Keeper of the lost cities", "Keeper of the lost cities merch", "keepers of the lost cities", "kotlc gifts", "Keeper of the lost cities gifts", "Kotlc necklace", "Keeper of the lost cities necklace",
-                 "kotlc bracelet", "kotlc bag", "keeper of the lost cities bracelet"]
+search_keywords = ["kotlc bag", "kotlc make up bag", "kotlc makeup bag", "kotlc tote bag", "kotlc pencil case", "Keeper of the lost cities makeup bag", "Keeper of the lost cities tote bag"]
 
 
 us_zip_code = "02118"
