@@ -1,0 +1,70 @@
+import pandas as pd
+
+def get_asin_ranks(asins, files, output_file):
+    # Dictionary to store results
+    results = {}
+
+    for file in files:
+        # Load CSV file into dataframe
+        df = pd.read_csv(file)
+
+        # Filter only rows where 'Sponsored' is 'No'
+        df = df[df['Sponsored'] == 'No']
+
+        # Store ASIN ranks for this file
+        results[file] = {asin: df.loc[df['ASIN'] == asin, 'Rank'].values[0] if len(df.loc[df['ASIN'] == asin, 'Rank'].values) > 0 else 'Not Found' for asin in asins}
+
+    # Convert results to a DataFrame
+    df_results = pd.DataFrame.from_dict(results, orient='index')
+
+    # Reset index to make File Name a column
+    df_results.index.name = 'CSV File'
+    df_results.reset_index(inplace=True)
+    
+    # Save to CSV
+    df_results.to_csv(output_file, index=False)
+    print(f"Output saved to {output_file}")
+    
+    return df_results
+
+# For KOTLC
+files = ["kotlc.csv", "kotlc merch.csv", "Keeper of the lost cities.csv", "Keeper of the lost cities merch.csv", "keepers of the lost cities.csv",
+                  "kotlc gifts.csv", "Keeper of the lost cities gifts.csv", "Kotlc necklace.csv", "Keeper of the lost cities necklace.csv","kotlc bracelet.csv", "kotlc bag.csv", "keeper of the lost cities bracelet.csv"]
+asins_to_search = [
+    "B0F8QGBG58", "B0F9FMWZJN", "B0F8QJTH13", "B0F8QMLJSQ", 
+    "B0F8VVKHL9","B0CTKKKKWZ"
+]
+
+
+# For TS
+#files = ["taylor swift makeup bag.csv", "taylor swift make up bag.csv", "taylor swift bag.csv", "taylor swift pencil case.csv", "Swiftie makeup bag.csv", "Taylor swift gift.csv"]
+#asins_to_search = [
+#    "B0DG22RSNR","B0DVYKN5SW","B0DVR4P1KC"
+#]
+
+
+# For Kpop
+#files = ["black pink kpop merch.csv", "blackpink kpop merch.csv", "blackpink merch.csv", "black pink merch for girls.csv","blackpink merch for girls.csv","Kpop merch.csv","black pink kpop bag.csv","black pink kpop makeup bag.csv","kpop bag.csv"]
+#asins_to_search = [
+#    "B0DG2F4TW2", "B0DRS9HPS2", "B0DRSC1991", "B0DRVN7ZBR", "B0DS9HFWMS"
+#]
+
+
+# For kotlc bags
+#files = ["kotlc bag.csv", "kotlc make up bag.csv", "kotlc makeup bag.csv", "kotlc tote bag.csv", "kotlc pencil case.csv", "Keeper of the lost cities makeup bag.csv", "Keeper of the lost cities tote bag.csv"]
+#asins_to_search = [
+#    "B09F3GFB5Q", "B0DHQT1QZ7", "B0BPBK88W5", "B0C3WGPZYT", 
+#    "B0DJQWRNDZ", "B0DG29BY8S", "B0DQXV3MMH", "B0DQXSCPQQ", "B0CTKKKKWZ"
+#]
+
+
+# For Jesus Cross
+#files = ["gold crucifix necklace for men.csv","gold crucifix necklace.csv","gold crucifix necklace for women.csv","jesus gold necklace.csv","jesus necklace for men.csv"]
+#asins_to_search = [
+#    "B0CSW7QBG2"
+#]
+
+
+output_filename = "asin_ranks_output.csv"
+ranks_df = get_asin_ranks(asins_to_search, files, output_filename)
+print(ranks_df)
